@@ -67,6 +67,23 @@ class Solution {
         return minIndex+1;
     }
 }
+//O(1) space dp
+class Solution {
+    public int canCompleteCircuit(int[] gas, int[] cost) {
+        int start = 0;
+        int total = 0, tank = 0;
+        for(int i = 0; i < gas.length; i++){
+            tank = tank + gas[i] - cost[i];
+            if(tank < 0){
+                start = i+1;
+                total += tank;
+                tank = 0;
+            }
+        }     
+        return (total+tank<0)? -1:start;
+        
+    }
+}
 /*same idea in other people's code
 1.Whenever the sum is negative, reset it and let the car start from next point.
 2.In the mean time, add up all of the left gas to total. If it's negative finally, return -1 since it's impossible to finish.

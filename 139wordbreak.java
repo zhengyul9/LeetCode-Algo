@@ -22,24 +22,21 @@ Example 3:
 Input: s = "catsandog", wordDict = ["cats", "dog", "sand", "and", "cat"]
 Output: false
  */
-//dp method 69, 5
 class Solution {
+    HashSet<String> set = new HashSet<>();
     public boolean wordBreak(String s, List<String> wordDict) {
+        for(int i = 0; i < wordDict.size(); i++){
+            set.add(wordDict.get(i));
+        }
         boolean[] dp = new boolean[s.length()+1];
-        //Set<String> dict = new HashSet<String>(wordDict); // beat 8%
-        Set<String> dict = new HashSet<>(); //beat 69%
-        dict.addAll(wordDict);//beat 69%
-        dp[0] = true;    
-        
-        for(int i = 1; i < s.length()+1; i++){
+        dp[0] = true;
+        for(int i = 1; i <= s.length(); i++){
             for(int j = 0; j < i; j++){
-                if(dp[j] == true && dict.contains(s.substring(j, i))){
+                if(dp[j] && set.contains(s.substring(j,i)) ){
                     dp[i] = true;
-                    break;
                 }
             }
-        }       
-        return dp[s.length()];    
+        }
+        return dp[dp.length-1];
     }
 }
-//

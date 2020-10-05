@@ -1,0 +1,61 @@
+/*
+题目描述
+查找两个字符串a,b中的最长公共子串。若有多个，输出在较短串中最先出现的那个。
+输入描述:
+输入两个字符串
+输出描述:
+返回重复出现的字符
+示例1
+输入
+复制
+abcdefghijklmnop
+abcsafjklmnopqrstuvw
+输出
+复制
+jklmnop
+*/
+//one pass algo
+import java.util.Scanner;
+public class Main{
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        while(sc.hasNext()){
+            String s1 = sc.next();
+            String s2 = sc.next();
+            if(s1.length() > s2.length())
+            {
+                String temp = s1;
+                s1 = s2;
+                s2 = temp;
+            }
+            getcommenstrLength(s1,s2);
+        }
+    }
+       
+    private static void getcommenstrLength(String s1, String s2){
+        char[] c1 = s1.toCharArray();
+        char[] c2 = s2.toCharArray();
+        int[][] dp = new int[c1.length+1][c2.length+1];
+        int max = 0;
+        int num=0;
+        StringBuffer sb=new StringBuffer();
+       //第一步，得到动态序列
+        int  start = 0, end = 0;
+        for(int i = 1; i< c1.length+1; i++){
+            for(int j = 1; j< c2.length+1; j++){
+                if (c1[i-1] == c2[j-1]){
+                    dp[i][j] = dp[i-1][j-1]+1;
+                    if(dp[i][j]> max ){
+                        max = dp[i][j];             //此处不同，不必返回动态序列情况，我们想要得到的只是整个动态序列
+                        start = i-max;
+                        end = i-1;
+                    }
+                }
+            }
+        }
+        for(int i=start;i<=end;i++){
+            sb.append(c1[i]); 
+        }
+        System.out.println(sb.toString());
+    }
+}
